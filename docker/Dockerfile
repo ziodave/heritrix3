@@ -19,8 +19,8 @@ WORKDIR /opt
 # download latest version according to:
 #   https://github.com/internetarchive/heritrix3/releases/tag/3.4.0-20210923
 RUN \
-    curl -Lo heritrix-${version}-dist.zip https://repo1.maven.org/maven2/org/archive/heritrix/heritrix/${version}/heritrix-${version}-dist.zip && \
-    unzip heritrix-${version}-dist.zip && \
+    curl -Lo heritrix-${version}-dist.zip https://repo1.maven.org/maven2/org/archive/heritrix/heritrix/${version}/heritrix-${version}-dist.tar.gz && \
+    tar zxvf heritrix-${version}-dist.zip && \
     rm heritrix-${version}-dist.zip && \
     mv heritrix-${version} heritrix && \
     chmod u+x heritrix/bin/heritrix && \
