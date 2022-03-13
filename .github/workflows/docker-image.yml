@@ -16,7 +16,8 @@ jobs:
     strategy:
       matrix:
         Dockerfile: [ "Dockerfile", "Dockerfile.contrib" ]
-        java: [ 11, 17 ]
+        # using 17-bullseye because we need apt to install youtube-dl.
+        java: [ 11, "17-bullseye" ]
 
     steps:
       - name: Checkout repository
