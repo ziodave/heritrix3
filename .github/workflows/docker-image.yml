@@ -16,6 +16,7 @@ jobs:
     strategy:
       matrix:
         Dockerfile: [ "Dockerfile", "Dockerfile.contrib" ]
+        java: [ 11, 17 ]
 
     steps:
       - name: Checkout repository
@@ -47,12 +48,15 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}${{ matrix.Dockerfile == 'Dockerfile.contrib' && '-contrib' || '' }}
+          # Following the same pattern as maven here, that is to add the java version as suffix.
+          flavor: suffix=-jdk-${{ matrix.java }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: ./docker/
           file: ./docker/${{ matrix.Dockerfile }}
+          build-args: java=${{ matrix.java }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
